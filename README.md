@@ -1,13 +1,13 @@
 # Wollok Game: Título de juego
 
-**Grupo:** Nombre de Grupo
+**Grupo:** Bits
 
 **Integrantes:**
-- Nombre y Apellido
-- Nombre y Apellido
-- Nombre y Apellido
-- Nombre y Apellido
-- Nombre y Apellido
+- Christian Huarachi
+- Jhon Jairo Pastor Tumiri Cuellar
+- Leonel Chejo
+- Alex Nicolas Larramendi
+- Nicolas Basile
 
 ## Consignas
 
