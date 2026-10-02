@@ -1,0 +1,25 @@
+import serpiente.*
+import direccion.*
+
+describe "Tests de la Serpiente" {
+
+    test "La serpiente avanza correctamente hacia la derecha" {
+        serpiente.position(game.at(2, 2))
+        serpiente.direccion(derecha)
+        serpiente.avanzar()
+        assert.equals(game.at(3, 2), serpiente.position())
+    }
+
+    test "La serpiente cambia de dirección correctamente si no es opuesta" {
+        serpiente.direccion(derecha)
+        serpiente.cambiarDireccion(arriba)
+        assert.equals(arriba, serpiente.direccion())
+    }
+
+    test "La serpiente no puede girar 180 grados de golpe" {
+        serpiente.direccion(derecha)
+        serpiente.cambiarDireccion(izquierda)
+        // Debe mantener derecha
+        assert.equals(derecha, serpiente.direccion())
+    }
+}
