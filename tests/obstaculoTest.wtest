@@ -1,0 +1,100 @@
+import wollok.game.*
+import serpiente.*
+import direccion.*
+import obstaculo.*
+
+describe "Tests de Obstáculos" {
+
+    method initialize() {
+        game.width(40)
+        game.height(40)
+    }
+
+    // ============================================
+    // PIEDRA
+    // ============================================
+
+    test "La piedra mata a la serpiente" {
+        serpiente.resetear()
+        piedra.chocarCon(serpiente)
+        assert.notThat(serpiente.estaViva())
+    }
+
+    test "La piedra no cambia el puntaje de la serpiente" {
+        serpiente.resetear()
+        serpiente.puntaje(50)
+        piedra.chocarCon(serpiente)
+        assert.equals(50, serpiente.puntaje())
+    }
+
+    test "La piedra no cambia la posición de la serpiente" {
+        serpiente.resetear()
+        serpiente.position(game.at(10, 10))
+        piedra.chocarCon(serpiente)
+        assert.equals(game.at(10, 10), serpiente.position())
+    }
+
+    test "La piedra tiene una posición" {
+        assert.equals(game.at(10, 10), piedra.position())
+    }
+
+    test "La piedra tiene una imagen" {
+        assert.equals("piedra_64.png", piedra.image())
+    }
+
+    // ============================================
+    // CACTUS
+    // ============================================
+
+    test "El cactus mata a la serpiente" {
+        serpiente.resetear()
+        cactus.chocarCon(serpiente)
+        assert.notThat(serpiente.estaViva())
+    }
+
+    test "El cactus no cambia el puntaje de la serpiente" {
+        serpiente.resetear()
+        serpiente.puntaje(50)
+        cactus.chocarCon(serpiente)
+        assert.equals(50, serpiente.puntaje())
+    }
+
+    test "El cactus tiene una posición" {
+        assert.equals(game.at(15, 15), cactus.position())
+    }
+
+    test "El cactus tiene una imagen" {
+        assert.equals("cactus_64.png", cactus.image())
+    }
+
+    // ============================================
+    // LAVA
+    // ============================================
+
+    test "La lava mata a la serpiente" {
+        serpiente.resetear()
+        lava.chocarCon(serpiente)
+        assert.notThat(serpiente.estaViva())
+    }
+
+    test "La lava resetea el puntaje de la serpiente" {
+        serpiente.resetear()
+        serpiente.puntaje(50)
+        lava.chocarCon(serpiente)
+        assert.equals(0, serpiente.puntaje())
+    }
+
+    test "La lava resetea el puntaje aunque sea 0" {
+        serpiente.resetear()
+        lava.chocarCon(serpiente)
+        assert.equals(0, serpiente.puntaje())
+    }
+
+    test "La lava tiene una posición" {
+        assert.equals(game.at(20, 20), lava.position())
+    }
+
+    test "La lava tiene una imagen" {
+        assert.equals("lava_64.png", lava.image())
+    }
+}
