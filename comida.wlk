@@ -3,6 +3,8 @@ import wollok.game.*
 object comida {
     var property position = game.at(5,5)
     method image() = "manzana_64.png"
+
+    method puntaje() = 10
     method chocarCon(serpiente){
         serpiente.comer(self)
         self.reposicionar()
