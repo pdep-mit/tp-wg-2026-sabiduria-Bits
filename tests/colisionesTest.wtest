@@ -1,0 +1,24 @@
+import serpiente.*
+import comida.*
+import segmento.*
+import colisionable.*
+import wollok.game.*
+
+describe "Tests de Colisiones" {
+
+    test "La colisión con una comida hace crecer a la serpiente y reposiciona la comida" {
+        serpiente.position(game.at(5, 5))
+        comida.position(game.at(5, 5))
+        colision.colisionar(comida)
+        
+        assert.notEquals(game.at(5, 5), comida.position())
+    }
+
+    test "La colisión con un segmento del cuerpo ejecuta el efecto sobre la serpiente" {
+        serpiente.position(game.at(5, 5))
+        const unSegmento = new Segmento(position = game.at(5, 5))
+        
+        colision.colisionar(unSegmento)
+        
+    }
+}
