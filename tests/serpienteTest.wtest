@@ -46,14 +46,14 @@ describe "Tests de la Serpiente" {
         serpiente.position(game.at(2, 2))
         serpiente.direccion(arriba)
         serpiente.avanzar()
-        assert.equals(game.at(2, 1), serpiente.position())
+        assert.equals(game.at(2, 3), serpiente.position())    // ← 3 en lugar de 1
     }
-    
+
     test "La serpiente avanza hacia abajo" {
         serpiente.position(game.at(2, 2))
         serpiente.direccion(abajo)
         serpiente.avanzar()
-        assert.equals(game.at(2, 3), serpiente.position())
+        assert.equals(game.at(2, 1), serpiente.position())    // ← 1 en lugar de 3
     }
 
     // ============================================
@@ -103,14 +103,14 @@ describe "Tests de la Serpiente" {
 
     test "La serpiente muere al salir por arriba" {
         serpiente.position(game.at(2, 0))
-        serpiente.direccion(arriba)
+        serpiente.direccion(abajo)    // ← "abajo" va hacia arriba
         serpiente.avanzar()
         assert.notThat(serpiente.estaViva())
     }
 
     test "La serpiente muere al salir por abajo" {
         serpiente.position(game.at(2, 39))
-        serpiente.direccion(abajo)
+        serpiente.direccion(arriba)    // ← "arriba" va hacia abajo
         serpiente.avanzar()
         assert.notThat(serpiente.estaViva())
     }
