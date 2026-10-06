@@ -1,7 +1,7 @@
 import wollok.game.*
 
 object comida {
-    var property position = game.at(5,5)
+    var property position = game.at(8, 8)
     method image() = "manzana_64.png"
 
     method puntaje() = 10
