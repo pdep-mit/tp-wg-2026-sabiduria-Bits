@@ -3,6 +3,7 @@ import example.* // no es necesario
 import serpiente.*
 import comida.*
 import direccion.*
+import obstaculo.*
 
 
 program Snake {
@@ -10,11 +11,17 @@ program Snake {
     game.title("Grupo: Bits | Nombre de jueguito")
     game.height(40)
     game.width(40)
+    
+    // Fondo del juego
+    game.boardGround("fondo.png")
 
 
     // Agregar visuales
     game.addVisual(serpiente)
     game.addVisual(comida)
+    game.addVisual(lava)
+    game.addVisual(cactus)
+    game.addVisual(piedra)
 
 
    
