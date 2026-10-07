@@ -1,5 +1,4 @@
 import wollok.game.*
-import example.* // no es necesario
 import serpiente.*
 import comida.*
 import direccion.*
