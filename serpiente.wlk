@@ -12,7 +12,7 @@ object serpiente {
     const property cuerpo = []
 
     method cambiarDireccion(nuevaDireccion) {
-        if (!direccion.esOpuesta(nuevaDireccion)) {
+        if (nuevaDireccion != direccion.opuesta()) {
             direccion = nuevaDireccion
         }
     }
