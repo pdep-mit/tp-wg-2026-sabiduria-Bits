@@ -35,3 +35,24 @@ class Comida {
     }
 }
 
+class Manzana inherits Comida {
+    override method puntaje() = 10
+    override method image() = "manzana_64.png"
+}
+
+class Banana inherits Comida {
+    override method puntaje() = 20
+    override method image() = "banana.png" // Falta poner las imagenes
+}
+
+class Cereza inherits Comida {
+    override method puntaje() = 30
+    override method image() = "cereza.png"
+}
+
+class FrutaDorada inherits Comida {
+    override method puntaje() = 50
+    override method image() = "frutadorada.png"
+}
+
+const comida = new Manzana()
