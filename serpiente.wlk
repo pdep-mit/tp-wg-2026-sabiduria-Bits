@@ -6,6 +6,9 @@ object serpiente {
     var property position = game.at(5, 5)
     var property direccion = derecha
     var property puntaje = 0
+    var property velocidad = 20
+    var property contador = 0
+
     var viva = true
     
     // Lista para guardar el rastro del cuerpo
@@ -19,10 +22,15 @@ object serpiente {
 
     method avanzar() {
         if (viva) {
-            const posicionAnterior = position
-            position = direccion.siguientePosicion(position)
-            self.verificarBorde()
-            self.moverCuerpo(posicionAnterior)
+            contador += 1
+            // Avanza solo si el contador llega a la velocidad actual
+            if (contador >= velocidad) {
+                const posicionAnterior = position
+                position = direccion.siguientePosicion(position)
+                self.verificarBorde()
+                self.moverCuerpo(posicionAnterior)
+                contador = 0
+            }
         }
     }
 
@@ -47,22 +55,35 @@ object serpiente {
     method comer(comida) {
         puntaje += comida.puntaje()
         self.crecer()
+        comida.aumentarRapidez(self) // <-- Le avisa a la fruta que aumente la velocidad
+    
+        // Muestra en puntaje por consola por el tema que se ve muy pequeño en el marcador, y así se ve más claro
+        console.println("==================================")
+        console.println("🍎 ¡Comiste! Puntaje actual: " + puntaje)
+        console.println("==================================") 
+    }
+
+    method aumentarVelocidad(cuanto) {
+        // Restamos para que vaya más rápido (menos ticks de espera)
+        // El max(1) asegura que nunca sea menor a 1 (que no colapse)
+        velocidad = (velocidad - cuanto).max(1) 
     }
 
     // Se crea un segmento invisible debajo de la cabeza. Al avanzar, quedará revelado.
     method crecer() {
-    const nuevoSegmento = new Segmento(position = game.at(-1, -1))
-    cuerpo.add(nuevoSegmento)
-    game.addVisual(nuevoSegmento)
+        const nuevoSegmento = new Segmento(position = game.at(-1, -1))
+        cuerpo.add(nuevoSegmento)
+        game.addVisual(nuevoSegmento)
     }
 
     method resetear() {
         position = game.at(5, 5)
         direccion = derecha
         puntaje = 0
+        velocidad = 20    // <-- Vuelve a la velocidad lenta inicial
         viva = true
+        contador = 0
         
-        // Limpiamos los visuales del cuerpo del tablero y vaciamos la lista
         cuerpo.forEach({ segmento => game.removeVisual(segmento) })
         cuerpo.clear()
     }
@@ -70,9 +91,10 @@ object serpiente {
     method morir() {
         viva = false
         game.say(self, "¡Game Over! Presiona R para reiniciar")
-        console.println("================================")
+        console.println("==================================")
         console.println("         ¡GAME OVER!            ")
-        console.println("================================")
+        console.println("   Puntaje final: " + puntaje)  
+        console.println("==================================")
     }
 
     method estaViva() = viva
