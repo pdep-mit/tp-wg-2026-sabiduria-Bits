@@ -1,33 +1,43 @@
 import wollok.game.*
+import obstaculo.*
 
 class Comida {
     var property position = game.at(8, 8)
 
-    method puntaje() = 0 
-    method image() = ""
+    method puntaje() = 10 
+    method image() = "manzana_64.png"
+
+    method aumentarRapidez(serpiente) {
+        // La manzana no hace nada
+    }
 
     method chocarCon(serpiente) {
         serpiente.comer(self)
-        self.reposicionar()
+        self.reposicionar(serpiente)
     }
 
-    method reposicionar() {
-        var nuevaPos = self.posicionAleatoria()
-        // Nos aseguramos de que no aparezca sobre la serpiente u obstáculos
-        while (!(self.posicionEsLibre(nuevaPos))) {
-            nuevaPos = self.posicionAleatoria()
-        }
-        position = nuevaPos
-    }
-
-    method posicionAleatoria() {
+    method reposicionar(serpiente) {
         const x = (0 .. game.width() - 1).anyOne()
         const y = (0 .. game.height() - 1).anyOne()
-        return game.at(x, y)
+        const nuevaPos = game.at(x, y)
+
+        // Si la posición está libre, la asignamos
+        if (self.posicionLibre(nuevaPos, serpiente)) {
+            position = nuevaPos
+        } else {
+            // Si está ocupada, volvemos a intentar (recursividad)
+            self.reposicionar(serpiente)
+        }
     }
 
-    method posicionEsLibre(pos) {
-        return game.getObjectsIn(pos).isEmpty()
+    method posicionLibre(pos, serpiente) {
+        const libreDeSerpiente = !(pos.x() == serpiente.position().x() && pos.y() == serpiente.position().y())
+        
+        const libreDeObstaculos = !(pos.x() == piedra.position().x() && pos.y() == piedra.position().y()) &&
+                                  !(pos.x() == cactus.position().x() && pos.y() == cactus.position().y()) &&
+                                  !(pos.x() == lava.position().x() && pos.y() == lava.position().y())
+        
+        return libreDeSerpiente && libreDeObstaculos
     }
 
     method resetear() {
@@ -41,18 +51,28 @@ class Manzana inherits Comida {
 }
 
 class Banana inherits Comida {
-    override method puntaje() = 20
-    override method image() = "banana.png" // Falta poner las imagenes
+    override method puntaje() = super() + 10    // 20 puntos en total
+    override method image() = "banana.png"
+
+    override method aumentarRapidez(serpiente) {
+        serpiente.aumentarVelocidad(1) // <-- Acelera 1
+    }
 }
 
 class Cereza inherits Comida {
-    override method puntaje() = 30
+    override method puntaje() = super() + 20    // 30 puntos en total
     override method image() = "cereza.png"
+
+    override method aumentarRapidez(serpiente) {
+        serpiente.aumentarVelocidad(2) // <-- Acelera 2
+    }
 }
 
 class FrutaDorada inherits Comida {
-    override method puntaje() = 50
+    override method puntaje() = super() + 40    // 50 puntos en total
     override method image() = "frutadorada.png"
-}
 
-const comida = new Manzana()
+    override method aumentarRapidez(serpiente) {
+        serpiente.aumentarVelocidad(4) // <-- Acelera 4
+    }
+}
