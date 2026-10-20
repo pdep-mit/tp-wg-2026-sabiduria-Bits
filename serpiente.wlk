@@ -97,13 +97,12 @@ object serpiente {
     }
 
     method morir() {
-        if (viva) {
-            viva = false
-            game.say(self, "¡Game Over! Presiona R para reiniciar")
-            console.println("================================")
-            console.println("         ¡GAME OVER!            ")
-            console.println("================================")
-        }
+        viva = false
+        game.say(self, "¡Game Over! Presiona R para reiniciar")
+        console.println("==================================")
+        console.println("         ¡GAME OVER!            ")
+        console.println("   Puntaje final: " + puntaje)  
+        console.println("==================================")
     }
 
     method estaViva() = viva
