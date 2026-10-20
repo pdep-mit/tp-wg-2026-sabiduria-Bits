@@ -45,6 +45,20 @@ class Lava inherits Obstaculo {
 }
 
 // Instancias únicas de los obstáculos si las manejan como objetos globales
-object piedra inherits Piedra { }
-object cactus inherits Cactus { }
-object lava inherits Lava { }
+object piedra inherits Piedra {
+    method initialize() {
+        position = game.at(10, 10)
+    }
+}
+
+object cactus inherits Cactus {
+    method initialize() {
+        position = game.at(5, 10)
+    }
+}
+
+object lava inherits Lava {
+    method initialize() {
+        position = game.at(10, 5)
+    }
+}
