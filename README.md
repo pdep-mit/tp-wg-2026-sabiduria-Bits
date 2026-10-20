@@ -8,7 +8,8 @@
 - Leonel Chejo
 - Alex Nicolas Larramendi
 - Nicolas Basile
-
+- Jazmin Callizaya
+  
 ## Consignas
 
 Todo lo que necesitan saber está explicado en [este documento](https://docs.google.com/document/d/1KoB12RIZk_xPhmnOJ-EfLIPNwkETD_EaYMp2srDu9QY/edit?tab=t.0#heading=h.wnm2lu4cls8j). Para todo lo demás, aseguren prestar atención a los comunicados por Discord.
@@ -22,9 +23,13 @@ Recuerden que para cada checkpoint hay [expectativas mínimas](https://docs.goog
 
 # Cómo jugar
 
+Nuestro juego consiste en que el jugador controla una serpiente que debe moverse por un tablero, recolectar frutas y acumular puntos mientras evita los obstaculos y los limites del escenario.
+
+Los tipos diferentes de frutas tienen distintos valores de de puntaje y efectos sobre la velocidad de la serpiente.
+
 ## Objetivo
 
-TODO
+El juego consiste en conseguir la mayor cantidad de puntos posibles comiendo frutas, evitando chocar contra los dordes del tablero, contra el propio cuerpo de l asrpierte y los obstaculos del escenario 
 
 ## Controles
 
