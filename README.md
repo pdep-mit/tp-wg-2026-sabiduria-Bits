@@ -29,7 +29,7 @@ Los tipos diferentes de frutas tienen distintos valores de de puntaje y efectos 
 
 ## Objetivo
 
-El juego consiste en conseguir la mayor cantidad de puntos posibles comiendo frutas, evitando chocar contra los dordes del tablero, contra el propio cuerpo de l asrpierte y los obstaculos del escenario 
+El juego consiste en conseguir la mayor cantidad de puntos posibles comiendo frutas, evitando chocar contra los bordes del tablero, contra el propio cuerpo de la serpiente y los obstaculos del escenario 
 
 ## Controles
 
