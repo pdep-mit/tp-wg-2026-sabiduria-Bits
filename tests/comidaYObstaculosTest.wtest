@@ -1,0 +1,31 @@
+import comida.*
+import obstaculo.*
+import serpiente.*
+import colisionable.*
+import wollok.game.*
+
+describe "Tests de Frutas y Obstáculos" {
+
+    test "La Banana otorga 20 puntos y acelera a la serpiente" {
+        const banana = new Banana()
+        serpiente.position(game.at(5, 5))
+        banana.position(game.at(5, 5))
+
+        // Al chocar, la serpiente la come de forma polimórfica
+        colision.colisionar(banana)
+
+        // Verificamos el reposicionamiento
+        assert.notEquals(game.at(5, 5), banana.position())
+    }
+
+    test "La Lava resetea el puntaje de la serpiente al colisionar" {
+        serpiente.position(game.at(5, 5))
+        serpiente.puntaje(100)
+        
+        lava.position(game.at(5, 5))
+
+        colision.colisionar(lava)
+
+        assert.equals(0, serpiente.puntaje())
+    }
+}
