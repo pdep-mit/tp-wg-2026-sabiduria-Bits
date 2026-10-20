@@ -5,8 +5,8 @@ import direccion.*
 describe "Tests de la Serpiente" {
     
     method initialize() {
-        game.width(40)
-        game.height(40)
+        game.width(16)
+        game.height(16)
         serpiente.velocidad(1)
     }
     test "La serpiente avanza correctamente hacia la derecha" {
@@ -89,7 +89,7 @@ describe "Tests de la Serpiente" {
     // ============================================
 
     test "La serpiente muere al salir por la derecha" {
-        serpiente.position(game.at(39, 2))
+        serpiente.position(game.at(15, 2))
         serpiente.direccion(derecha)
         serpiente.avanzar()
         assert.notThat(serpiente.estaViva())
@@ -103,7 +103,7 @@ describe "Tests de la Serpiente" {
     }
 
     test "La serpiente muere al salir por arriba" {
-        serpiente.position(game.at(2, 39))
+        serpiente.position(game.at(2, 15))
         serpiente.direccion(arriba)
         serpiente.avanzar()
         assert.notThat(serpiente.estaViva())

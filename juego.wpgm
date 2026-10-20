@@ -9,8 +9,8 @@ import obstaculo.*
 program Snake {
     // TODO: Cambiar esto por lo que necesiten
     game.title("Grupo: Bits | Nombre de jueguito")
-    game.height(40)
-    game.width(40)
+    game.height(16)
+    game.width(16)
     
     // Fondo del juego
     game.boardGround("fondo.png")
@@ -56,7 +56,6 @@ program Snake {
 
     keyboard.r().onPressDo {
         serpiente.resetear()
-        marcador.actualizar(0)
         game.start()
     }
    
