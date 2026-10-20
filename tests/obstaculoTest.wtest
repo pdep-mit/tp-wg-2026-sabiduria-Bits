@@ -60,7 +60,7 @@ describe "Tests de Obstáculos" {
     }
 
     test "El cactus tiene una posición" {
-        assert.equals(game.at(15, 15), cactus.position())
+        assert.equals(game.at(5, 10), cactus.position())
     }
 
     test "El cactus tiene una imagen" {
@@ -91,7 +91,7 @@ describe "Tests de Obstáculos" {
     }
 
     test "La lava tiene una posición" {
-        assert.equals(game.at(20, 20), lava.position())
+        assert.equals(game.at(10, 5), lava.position())
     }
 
     test "La lava tiene una imagen" {
