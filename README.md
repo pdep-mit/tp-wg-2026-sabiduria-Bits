@@ -34,11 +34,11 @@ El juego consiste en conseguir la mayor cantidad de puntos posibles comiendo fru
 ## Controles
 
 |  Tecla |  Acción |
-| :--- | ---: |
-| W | Mover hacia arriba |
-| S | Mover hacia abajo |
-| A | Mover hacia la izquierda |
-| D | Mover hacia la derecha |
+| :---: | :--- |
+| W o &uarr; | Mover hacia arriba |
+| S o &darr; | Mover hacia abajo |
+| A o &larr; | Mover hacia la izquierda |
+| D o &rarr; | Mover hacia la derecha |
 | F | Detener el juego |
 | R | Reiniciar el juego |
 
