@@ -51,7 +51,7 @@ class Manzana inherits Comida {
 
 class Banana inherits Comida {
     override method puntaje() = super() + 10    // 20 puntos en total
-    override method image() = "banana.png"
+    override method image() = "manzana_64.png"
 
     override method aumentarRapidez(serpiente) {
         serpiente.aumentarVelocidad(1) // <-- Acelera 1
@@ -60,7 +60,7 @@ class Banana inherits Comida {
 
 class Cereza inherits Comida {
     override method puntaje() = super() + 20    // 30 puntos en total
-    override method image() = "cereza.png"
+    override method image() = "manzana_64.png"
 
     override method aumentarRapidez(serpiente) {
         serpiente.aumentarVelocidad(2) // <-- Acelera 2
@@ -69,7 +69,7 @@ class Cereza inherits Comida {
 
 class FrutaDorada inherits Comida {
     override method puntaje() = super() + 40    // 50 puntos en total
-    override method image() = "frutadorada.png"
+    override method image() = "manzana_64.png"
 
     override method aumentarRapidez(serpiente) {
         serpiente.aumentarVelocidad(4) // <-- Acelera 4

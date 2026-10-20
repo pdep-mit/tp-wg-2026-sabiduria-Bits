@@ -9,7 +9,7 @@ object piedra {
 }
 
 object cactus {
-    var property position = game.at(15, 15)
+    var property position = game.at(3, 3)
     method image() = "cactus_64.png"
     method chocarCon(serpiente) {
         serpiente.morir()
@@ -17,7 +17,7 @@ object cactus {
 }
 
 object lava {
-    var property position = game.at(20, 20)
+    var property position = game.at(8, 8)
     method image() = "lava_64.png"
     method chocarCon(serpiente) {
         serpiente.morir()
