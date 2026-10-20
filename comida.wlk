@@ -31,11 +31,10 @@ class Comida {
     }
 
     method posicionLibre(pos, serpiente) {
-        const libreDeSerpiente = !(pos.x() == serpiente.position().x() && pos.y() == serpiente.position().y())
+        //Preguntamos a la serpiente si ocupa el lugar
+        const libreDeSerpiente = not serpiente.ocupa(pos)
         
-        const libreDeObstaculos = !(pos.x() == piedra.position().x() && pos.y() == piedra.position().y()) &&
-                                  !(pos.x() == cactus.position().x() && pos.y() == cactus.position().y()) &&
-                                  !(pos.x() == lava.position().x() && pos.y() == lava.position().y())
+        const libreDeObstaculos = pos != piedra.position() and pos != cactus.position() and pos !=lava.position()
         
         return libreDeSerpiente && libreDeObstaculos
     }

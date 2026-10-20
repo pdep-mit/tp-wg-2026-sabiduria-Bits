@@ -61,7 +61,7 @@ program Snake {
     }
    
     keyboard.f().onPressDo {
-        // Salir: simplemente detener el juego (o cerrar la pestaña del navegador).
+        // Salir: detiene el juego
         game.stop()
     }
        

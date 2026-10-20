@@ -76,6 +76,14 @@ object serpiente {
         game.addVisual(nuevoSegmento)
     }
 
+    method ocupa(unaPosicion){
+        //Devuelve true si la cabeza o algun segmento del cuerpo esta en esa posicion
+        const ocupaCabeza = position == unaPosicion
+        const ocupaCuerpo = cuerpo.any({ segmento => segmento.position() == unaPosicion})
+
+        return ocupaCabeza or ocupaCuerpo
+    }
+
     method resetear() {
         position = game.at(5, 5)
         direccion = derecha
