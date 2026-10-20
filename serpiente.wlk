@@ -62,17 +62,19 @@ object serpiente {
         puntaje = 0
         viva = true
         
-        // Limpiamos los visuales del cuerpo del tablero y vaciamos la lista
+        // Limpiamos los visuales d cuerpo del tablero y vaciamos la lista
         cuerpo.forEach({ segmento => game.removeVisual(segmento) })
         cuerpo.clear()
     }
 
     method morir() {
-        viva = false
-        game.say(self, "¡Game Over! Presiona R para reiniciar")
-        console.println("================================")
-        console.println("         ¡GAME OVER!            ")
-        console.println("================================")
+        if (viva) {
+            viva = false
+            game.say(self, "¡Game Over! Presiona R para reiniciar")
+            console.println("================================")
+            console.println("         ¡GAME OVER!            ")
+            console.println("================================")
+        }
     }
 
     method estaViva() = viva

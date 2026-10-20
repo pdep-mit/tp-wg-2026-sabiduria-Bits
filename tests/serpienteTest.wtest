@@ -102,15 +102,15 @@ describe "Tests de la Serpiente" {
     }
 
     test "La serpiente muere al salir por arriba" {
-        serpiente.position(game.at(2, 0))
-        serpiente.direccion(abajo)    // ← "abajo" va hacia arriba
+        serpiente.position(game.at(2, 39))
+        serpiente.direccion(arriba)
         serpiente.avanzar()
         assert.notThat(serpiente.estaViva())
     }
 
     test "La serpiente muere al salir por abajo" {
-        serpiente.position(game.at(2, 39))
-        serpiente.direccion(arriba)    // ← "arriba" va hacia abajo
+        serpiente.position(game.at(2, 0))
+        serpiente.direccion(abajo)
         serpiente.avanzar()
         assert.notThat(serpiente.estaViva())
     }
