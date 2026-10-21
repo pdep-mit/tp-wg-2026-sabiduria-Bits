@@ -3,23 +3,32 @@ import comida.*
 import segmento.*
 import colisionable.*
 import wollok.game.*
+import nivel.*
 
-describe "Tests de Colisiones" {
+describe "probando los choques y colisiones de la serpiente" {
 
-    test "La colisión con una comida hace crecer a la serpiente y reposiciona la comida" {
+    method initialize() {
+        game.width(16)
+        game.height(16)
+        // cargamos el nivel pa q el gestor no tire error al buscar pos libre
+        gestorDeNiveles.cargarNivelActual()
+    }
+
+    test "si choca con la manzana la come y la manzana se va a otro lado" {
         const unaManzana = new Manzana(position = game.at(5, 5))
         
         serpiente.position(game.at(5, 5))
         colision.colisionar(unaManzana)
         
+        // verifico q la manzana ya no este ahi
         assert.notEquals(game.at(5, 5), unaManzana.position())
     }
 
-    test "La colisión con un segmento del cuerpo ejecuta el efecto sobre la serpiente" {
+    test "si es muy larga y se muerde la cola se muere" {
         serpiente.position(game.at(5, 5))
-        const unSegmento = new Segmento(position = game.at(5, 5))
+        const unCachoDeCuerpo = new Segmento(position = game.at(5, 5))
         
-        colision.colisionar(unSegmento)
+        colision.colisionar(unCachoDeCuerpo)
         
         assert.notThat(serpiente.estaViva())
     }

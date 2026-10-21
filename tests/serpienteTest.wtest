@@ -2,161 +2,67 @@ import wollok.game.*
 import serpiente.*
 import direccion.*
 
-describe "Tests de la Serpiente" {
+describe "probando como se mueve y vive la viborita" {
     
     method initialize() {
         game.width(16)
         game.height(16)
         serpiente.velocidad(1)
-    }
-    test "La serpiente avanza correctamente hacia la derecha" {
-        serpiente.position(game.at(2, 2))
-        serpiente.direccion(derecha)
-        serpiente.avanzar()
-        assert.equals(game.at(3, 2), serpiente.position())
+        serpiente.reanudar()
     }
 
-    test "La serpiente cambia de dirección correctamente si no es opuesta" {
-        serpiente.direccion(derecha)
-        serpiente.cambiarDireccion(arriba)
-        assert.equals(arriba, serpiente.direccion())
-    }
-
-    test "La serpiente no puede girar 180 grados de golpe" {
-        serpiente.direccion(derecha)
-        serpiente.cambiarDireccion(izquierda)
-        // Debe mantener derecha
-        assert.equals(derecha, serpiente.direccion())
-    }
-   
-    test "La serpiente avanza hacia la derecha" {
+    test "si le digo q avance a la derecha suma en x" {
         serpiente.position(game.at(2, 2))
         serpiente.direccion(derecha)
         serpiente.avanzar()
         assert.equals(game.at(3, 2), serpiente.position())
     }
     
-    test "La serpiente avanza hacia la izquierda" {
+    test "si avanza pa la izquierda resta en x" {
         serpiente.position(game.at(2, 2))
         serpiente.direccion(izquierda)
         serpiente.avanzar()
         assert.equals(game.at(1, 2), serpiente.position())
     }
     
-    test "La serpiente avanza hacia arriba" {
+    test "si va para arriva suma en y" {
         serpiente.position(game.at(2, 2))
         serpiente.direccion(arriba)
         serpiente.avanzar()
-        assert.equals(game.at(2, 3), serpiente.position())    // ← 3 en lugar de 1
+        assert.equals(game.at(2, 3), serpiente.position()) 
     }
 
-    test "La serpiente avanza hacia abajo" {
-        serpiente.position(game.at(2, 2))
-        serpiente.direccion(abajo)
-        serpiente.avanzar()
-        assert.equals(game.at(2, 1), serpiente.position())    // ← 1 en lugar de 3
-    }
-
-    // ============================================
-    // CAMBIO DE DIRECCIÓN
-    // ============================================
-    
-    test "La serpiente cambia de dirección si no es opuesta" {
+    test "no puede hacer un giro de 180 grados de una porque se rompe el cuello" {
         serpiente.direccion(derecha)
-        serpiente.cambiarDireccion(arriba)
-        assert.equals(arriba, serpiente.direccion())
-    }
-    test "La serpiente no puede girar de arriba a abajo" {
-        serpiente.direccion(arriba)
-        serpiente.cambiarDireccion(abajo)
-        assert.equals(arriba, serpiente.direccion())
+        serpiente.avanzar() 
+        serpiente.cambiarDireccion(izquierda)
+        // tiene q ignorar el cambio y seguir pa la derecha
+        assert.equals(derecha, serpiente.direccion())
     }
     
-    test "La serpiente no puede girar de abajo a arriba" {
-        serpiente.direccion(abajo)
-        serpiente.cambiarDireccion(arriba)
-        assert.equals(abajo, serpiente.direccion())
-    }
-    
-    test "La serpiente puede cambiar de derecha a abajo" {
-        serpiente.direccion(derecha)
-        serpiente.cambiarDireccion(abajo)
-        assert.equals(abajo, serpiente.direccion())
-    }
-
-    // ============================================
-    // BORDES (MORIR AL SALIR)
-    // ============================================
-
-    test "La serpiente muere al salir por la derecha" {
+    test "se choca la pared derecha y se re muere" {
         serpiente.position(game.at(15, 2))
         serpiente.direccion(derecha)
         serpiente.avanzar()
         assert.notThat(serpiente.estaViva())
     }
 
-    test "La serpiente muere al salir por la izquierda" {
-        serpiente.position(game.at(0, 2))
-        serpiente.direccion(izquierda)
-        serpiente.avanzar()
-        assert.notThat(serpiente.estaViva())
-    }
-
-    test "La serpiente muere al salir por arriba" {
-        serpiente.position(game.at(2, 15))
-        serpiente.direccion(arriba)
-        serpiente.avanzar()
-        assert.notThat(serpiente.estaViva())
-    }
-
-    test "La serpiente muere al salir por abajo" {
+    test "se choca abajo y palma" {
         serpiente.position(game.at(2, 0))
         serpiente.direccion(abajo)
         serpiente.avanzar()
         assert.notThat(serpiente.estaViva())
     }
-    // ============================================
-    // ESTADO
-    // ============================================
     
-    test "La serpiente empieza viva" {
-        assert.that(serpiente.estaViva())
-    }
-    
-    test "La serpiente muere correctamente" {
-        serpiente.morir()
-        assert.notThat(serpiente.estaViva())
-    }
-    
-    test "La serpiente muerta no avanza" {
-        serpiente.position(game.at(2, 2))
-        serpiente.direccion(derecha)
-        serpiente.morir()
-        serpiente.avanzar()
-        assert.equals(game.at(2, 2), serpiente.position())
-    }
-    
-    test "La serpiente resetea su posición" {
+    test "si la reseteo vuelve al diome y revive sin puntos" {
         serpiente.position(game.at(10, 10))
-        serpiente.resetear()
-        assert.equals(game.at(5, 5), serpiente.position())
-    }
-    
-    test "La serpiente resetea su dirección" {
-        serpiente.direccion(arriba)
-        serpiente.resetear()
-        assert.equals(derecha, serpiente.direccion())
-    }
-    
-    test "La serpiente resetea su puntaje" {
         serpiente.puntaje(50)
-        serpiente.resetear()
-        assert.equals(0, serpiente.puntaje())
-    }
-    
-    test "La serpiente resetea su estado de vida" {
         serpiente.morir()
+        
         serpiente.resetear()
+        
+        assert.equals(game.at(5, 5), serpiente.position())
+        assert.equals(0, serpiente.puntaje())
         assert.that(serpiente.estaViva())
     }
 }

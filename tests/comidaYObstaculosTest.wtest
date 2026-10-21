@@ -3,29 +3,54 @@ import obstaculo.*
 import serpiente.*
 import colisionable.*
 import wollok.game.*
+import nivel.*
 
-describe "Tests de Frutas y Obstáculos" {
+describe "testeando q las frutas del puntaje y los obstaculos" {
 
-    test "La Banana otorga 20 puntos y acelera a la serpiente" {
-        const banana = new Banana()
-        serpiente.position(game.at(5, 5))
-        banana.position(game.at(5, 5))
+    const piedra = new Piedra(position = game.at(10, 10))
+    const cactus = new Cactus(position = game.at(5, 10))
+    const lava = new Lava(position = game.at(10, 5))
 
-        // Al chocar, la serpiente la come de forma polimórfica
-        colision.colisionar(banana)
-
-        // Verificamos el reposicionamiento
-        assert.notEquals(game.at(5, 5), banana.position())
+    method initialize() {
+        game.width(16)
+        game.height(16)
+        serpiente.resetear()
+        gestorDeNiveles.cargarNivelActual()
     }
 
-    test "La Lava resetea el puntaje de la serpiente al colisionar" {
+    test "la banana te da 20 puntitos y te hace mas rapido" {
+        const banana = new Banana(position = game.at(5, 5))
         serpiente.position(game.at(5, 5))
-        serpiente.puntaje(100)
+
+        colision.colisionar(banana)
+
+        assert.equals(20, serpiente.puntaje())
+        // la velocidad arranca en 20, la banana resta 1 tonces queda 19
+        assert.equals(19, serpiente.velocidad()) 
+    }
+
+    test "la fruta dorada esta chetada y da 50 puntos" {
+        const dorada = new FrutaDorada(position = game.at(5, 5))
+        colision.colisionar(dorada)
         
-        lava.position(game.at(5, 5))
+        assert.equals(50, serpiente.puntaje())
+    }
 
-        colision.colisionar(lava)
+    test "chocar contra una piedra te liquida" {
+        piedra.chocarCon(serpiente)
+        assert.notThat(serpiente.estaViva())
+    }
 
+    test "chocar contra un cactus tmb te mata" {
+        cactus.chocarCon(serpiente)
+        assert.notThat(serpiente.estaViva())
+    }
+
+    test "pisar la lava te mata y de paso te roba todo el puntaje" {
+        serpiente.puntaje(500)
+        lava.chocarCon(serpiente)
+        
+        assert.notThat(serpiente.estaViva())
         assert.equals(0, serpiente.puntaje())
     }
 }

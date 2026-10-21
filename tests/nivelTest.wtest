@@ -1,0 +1,32 @@
+import wollok.game.*
+import nivel.*
+import serpiente.*
+
+describe "probando q pase de nivel cuando toca" {
+    
+    method initialize() {
+        game.width(16)
+        game.height(16)
+        gestorDeNiveles.indiceNivelActual(0) 
+        serpiente.resetear()
+    }
+
+    test "el nivel 1 pide 10 puntos pa pasar" {
+        assert.equals(10, gestorDeNiveles.nivelActual().puntajeObjetivo())
+    }
+
+    test "si  hace los 10 puntos pasa al nivel 2 al toke" {
+        // le seteamos 10 
+        gestorDeNiveles.verificarProgreso(10)
+        
+        // el indice del nivel 2 es el 1
+        assert.equals(1, gestorDeNiveles.indiceNivelActual())
+    }
+
+    test "si reseteo el gestor vuelve al nivel 1" {
+        gestorDeNiveles.indiceNivelActual(3) // supongamos q iba por el nivel 4
+        gestorDeNiveles.resetear()
+        
+        assert.equals(0, gestorDeNiveles.indiceNivelActual())
+    }
+}
