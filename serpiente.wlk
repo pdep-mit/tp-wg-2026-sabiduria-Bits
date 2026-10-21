@@ -1,30 +1,32 @@
 import direccion.*
 import wollok.game.*
 import segmento.*
+import nivel.*
 
 object serpiente {
     var property position = game.at(5, 5)
     var property direccion = derecha
+    var direccionActual = derecha
     var property puntaje = 0
     var property velocidad = 20
     var property contador = 0
 
     var viva = true
-    
-    // Lista para guardar el rastro del cuerpo
+    var pausada = true 
+
     const property cuerpo = []
 
     method cambiarDireccion(nuevaDireccion) {
-        if (nuevaDireccion != direccion.opuesta()) {
+        if (nuevaDireccion != direccionActual.opuesta()) { 
             direccion = nuevaDireccion
         }
     }
 
     method avanzar() {
-        if (viva) {
+        if (viva and not pausada) {
             contador += 1
-            // Avanza solo si el contador llega a la velocidad actual
             if (contador >= velocidad) {
+                direccionActual = direccion
                 const posicionAnterior = position
                 position = direccion.siguientePosicion(position)
                 self.verificarBorde()
@@ -55,21 +57,15 @@ object serpiente {
     method comer(comida) {
         puntaje += comida.puntaje()
         self.crecer()
-        comida.aumentarRapidez(self) // <-- Le avisa a la fruta que aumente la velocidad
-    
-        // Muestra en puntaje por consola por el tema que se ve muy pequeño en el marcador, y así se ve más claro
-        console.println("==================================")
-        console.println("🍎 ¡Comiste! Puntaje actual: " + puntaje)
-        console.println("==================================") 
+        comida.aumentarRapidez(self) 
+        
+        gestorDeNiveles.verificarProgreso(puntaje)
     }
 
     method aumentarVelocidad(cuanto) {
-        // Restamos para que vaya más rápido (menos ticks de espera)
-        // El max(1) asegura que nunca sea menor a 1 (que no colapse)
         velocidad = (velocidad - cuanto).max(1) 
     }
 
-    // Se crea un segmento invisible debajo de la cabeza. Al avanzar, quedará revelado.
     method crecer() {
         const nuevoSegmento = new Segmento(position = game.at(-1, -1))
         cuerpo.add(nuevoSegmento)
@@ -77,32 +73,42 @@ object serpiente {
     }
 
     method ocupa(unaPosicion){
-        //Devuelve true si la cabeza o algun segmento del cuerpo esta en esa posicion
         const ocupaCabeza = position == unaPosicion
         const ocupaCuerpo = cuerpo.any({ segmento => segmento.position() == unaPosicion})
 
         return ocupaCabeza or ocupaCuerpo
     }
 
+    method pausar() {
+        pausada = true
+    }
+
+    method reanudar() {
+        self.resetear()
+        pausada = false
+    }
+
     method resetear() {
         position = game.at(5, 5)
         direccion = derecha
+        direccionActual = derecha
         puntaje = 0
-        velocidad = 20    // <-- Vuelve a la velocidad lenta inicial
+        velocidad = 20
         viva = true
+        pausada = true 
         contador = 0
         
         cuerpo.forEach({ segmento => game.removeVisual(segmento) })
         cuerpo.clear()
+
+        if (game.hasVisual(pantallaGameOver)) {
+            game.removeVisual(pantallaGameOver)
+        }
     }
 
     method morir() {
         viva = false
-        game.say(self, "¡Game Over! Presiona R para reiniciar")
-        console.println("==================================")
-        console.println("         ¡GAME OVER!            ")
-        console.println("   Puntaje final: " + puntaje)  
-        console.println("==================================")
+        game.addVisual(pantallaGameOver)
     }
 
     method estaViva() = viva
