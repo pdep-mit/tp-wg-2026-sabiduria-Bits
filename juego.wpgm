@@ -1,73 +1,28 @@
 import marcador.*
 import wollok.game.*
 import serpiente.*
-import comida.*
 import direccion.*
-import obstaculo.*
-
+import nivel.*
+import controles.*
 
 program Snake {
-    // TODO: Cambiar esto por lo que necesiten
     game.title("Grupo: Bits | Nombre de jueguito")
-    game.height(16)
+    game.height(16) 
     game.width(16)
     
-    // Fondo del juego
     game.boardGround("fondo.png")
 
-
-    const manzana = new Manzana(position = game.at(0, 0))
-    const banana = new Banana(position = game.at(0, 0))
-    const cereza = new Cereza(position = game.at(0, 0))
-    const frutaDorada = new FrutaDorada(position = game.at(0, 0))
-    
-    // Reposicionar todas las frutas
-    manzana.reposicionar(serpiente)
-    banana.reposicionar(serpiente)
-    cereza.reposicionar(serpiente)
-    frutaDorada.reposicionar(serpiente)
-    
     game.addVisual(serpiente)
-    game.addVisual(manzana)
-    game.addVisual(banana)
-    game.addVisual(cereza)
-    game.addVisual(frutaDorada)
-    game.addVisual(lava)
-    game.addVisual(cactus)
-    game.addVisual(piedra)
-
     game.addVisual(marcador)
 
-
+    // nivel 1
+    gestorDeNiveles.iniciarJuego()
    
-   
-    // Eventos de teclado (Usar game.onKeyPress)
-    keyboard.w().onPressDo { serpiente.cambiarDireccion(arriba) }
-    keyboard.s().onPressDo { serpiente.cambiarDireccion(abajo) }
-    keyboard.a().onPressDo { serpiente.cambiarDireccion(izquierda) }
-    keyboard.d().onPressDo { serpiente.cambiarDireccion(derecha) }
-
-
-    keyboard.up().onPressDo { serpiente.cambiarDireccion(arriba) }
-    keyboard.down().onPressDo { serpiente.cambiarDireccion(abajo) }
-    keyboard.left().onPressDo { serpiente.cambiarDireccion(izquierda) }
-    keyboard.right().onPressDo { serpiente.cambiarDireccion(derecha) }
-
-
-    keyboard.r().onPressDo {
-        serpiente.resetear()
-        game.start()
-    }
-   
-    keyboard.f().onPressDo {
-        // Salir: detiene el juego
-        game.stop()
-    }
+    controles.configurar()
        
-    // Evento temporal
     game.onTick(20, "moverSerpiente", { serpiente.avanzar() })
    
-    // Colisiones
     game.onCollideDo(serpiente, { objeto => objeto.chocarCon(serpiente) })
+    
     game.start()
 }
