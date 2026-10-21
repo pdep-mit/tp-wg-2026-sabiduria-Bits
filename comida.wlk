@@ -1,15 +1,14 @@
 import wollok.game.*
 import obstaculo.*
+import nivel.* // Necesario para consultar al gestor
 
 class Comida {
     var property position = game.at(8, 8)
 
     method puntaje() = 10 
-    method image() = "manzana_64.png"
+    method image() = "manzana.png"
 
-    method aumentarRapidez(serpiente) {
-        // La manzana no hace nada
-    }
+    method aumentarRapidez(serpiente) {}
 
     method chocarCon(serpiente) {
         serpiente.comer(self)
@@ -19,24 +18,20 @@ class Comida {
     method reposicionar(serpiente) {
         const x = (0 .. game.width() - 1).anyOne()
         const y = (0 .. game.height() - 1).anyOne()
-        const nuevaPos = game.at(x, y)
+        const nuevaPosicion = game.at(x, y)
 
-        // Si la posición está libre, la asignamos
-        if (self.posicionLibre(nuevaPos, serpiente)) {
-            position = nuevaPos
+        if (self.posicionLibre(nuevaPosicion, serpiente)) {
+            position =  nuevaPosicion
         } else {
-            // Si está ocupada, volvemos a intentar (recursividad)
             self.reposicionar(serpiente)
         }
     }
 
-    method posicionLibre(pos, serpiente) {
-        //Preguntamos a la serpiente si ocupa el lugar
-        const libreDeSerpiente = not serpiente.ocupa(pos)
+    method posicionLibre(posicion, serpiente) {
+        const libreDeSerpiente = not serpiente.ocupa(posicion)
+        const libreDeOtros = not gestorDeNiveles.nivelActual().ocupa(posicion, self)
         
-        const libreDeObstaculos = pos != piedra.position() and pos != cactus.position() and pos !=lava.position()
-        
-        return libreDeSerpiente && libreDeObstaculos
+        return libreDeSerpiente and libreDeOtros
     }
 
     method resetear() {
@@ -46,32 +41,32 @@ class Comida {
 
 class Manzana inherits Comida {
     override method puntaje() = 10
-    override method image() = "manzana_64.png"
+    override method image() = "manzana.png"
 }
 
 class Banana inherits Comida {
-    override method puntaje() = super() + 10    // 20 puntos en total
-    override method image() = "manzana_64.png"
+    override method puntaje() = super() + 10  
+    override method image() = "banana.png"
 
     override method aumentarRapidez(serpiente) {
-        serpiente.aumentarVelocidad(1) // <-- Acelera 1
+        serpiente.aumentarVelocidad(1)
     }
 }
 
 class Cereza inherits Comida {
-    override method puntaje() = super() + 20    // 30 puntos en total
-    override method image() = "manzana_64.png"
+    override method puntaje() = super() + 20   
+    override method image() = "cereza.png"
 
     override method aumentarRapidez(serpiente) {
-        serpiente.aumentarVelocidad(2) // <-- Acelera 2
+        serpiente.aumentarVelocidad(3) 
     }
 }
 
 class FrutaDorada inherits Comida {
-    override method puntaje() = super() + 40    // 50 puntos en total
-    override method image() = "manzana_64.png"
+    override method puntaje() = super() + 40    
+    override method image() = "manzana_dorada.png"
 
     override method aumentarRapidez(serpiente) {
-        serpiente.aumentarVelocidad(4) // <-- Acelera 4
+        serpiente.aumentarVelocidad(5)
     }
 }
