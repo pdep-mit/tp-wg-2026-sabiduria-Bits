@@ -1,4 +1,5 @@
 import wollok.game.*
+import nivel.* 
 
 class Obstaculo {
     var property position = game.at(0, 0)
@@ -22,43 +23,27 @@ class Obstaculo {
     }
 
     method posicionLibre(pos, serpiente) {
-        // Evita aparecer donde está la cabeza de la serpiente
-        return !(pos.x() == serpiente.position().x() && pos.y() == serpiente.position().y())
+        const libreDeSerpiente = not serpiente.ocupa(pos)
+        
+        const libreDeOtros = not gestorDeNiveles.nivelActual().ocupa(pos, self)
+        
+        return libreDeSerpiente and libreDeOtros
     }
 }
 
 class Piedra inherits Obstaculo {
-    override method image() = "piedra_64.png"
+    override method image() = "piedra.png"
 }
 
 class Cactus inherits Obstaculo {
-    override method image() = "cactus_64.png"
+    override method image() = "cactus.png"
 }
 
 class Lava inherits Obstaculo {
-    override method image() = "lava_64.png"
+    override method image() = "lava.png"
 
     override method chocarCon(serpiente) {
         super(serpiente)
-        serpiente.puntaje(0) // Resetea puntaje al chocar con la lava
-    }
-}
-
-// Instancias únicas de los obstáculos si las manejan como objetos globales
-object piedra inherits Piedra {
-    method initialize() {
-        position = game.at(10, 10)
-    }
-}
-
-object cactus inherits Cactus {
-    method initialize() {
-        position = game.at(5, 10)
-    }
-}
-
-object lava inherits Lava {
-    method initialize() {
-        position = game.at(10, 5)
+        serpiente.puntaje(0) 
     }
 }
