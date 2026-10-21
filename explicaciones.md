@@ -174,8 +174,8 @@ classDiagram
     serpiente ..> gestorDeNiveles
 ```
 
-**Polimorfismo:** `Comida`, `Obstaculo`, `Segmento` y `marcador` entienden `chocarCon(serpiente)`. colision no pregunta de qué tipo es el objeto, solo le manda el mensaje.
-**Herencia y redefinicion:** Comida define el comportamiento base y cada fruta redefine `puntaje()`, `image()` y `aumentarRapidez()`. En Obstaculo, `image()` es abstracto, y Lava redefine `chocarCon con super()` y además le pone el puntaje en 0.
-**Objetos únicos (wko):** `serpiente`, `gestorDeNiveles`, `colision`, `marcador` y las cuatro direcciones son objetos porque no necesitan varias instancias. Nivel es clase porque tenés cinco con distinta configuracion.
-**Direcciones como objetos:** cada direccion implementa `siguientePosicion()` y `opuesta()`, así serpiente no usa ningún if para decidir hacia donde se mueve.
-**Composicion:** gestorDeNiveles conoce a los Nivel, y cada Nivel conoce a sus Comida y Obstaculo. serpiente conoce a sus Segmento.
+- **Polimorfismo:** `Comida`, `Obstaculo`, `Segmento` y `marcador` entienden `chocarCon(serpiente)`. colision no pregunta de qué tipo es el objeto, solo le manda el mensaje.
+- *Herencia y redefinicion:** Comida define el comportamiento base y cada fruta redefine `puntaje()`, `image()` y `aumentarRapidez()`. En Obstaculo, `image()` es abstracto, y Lava redefine `chocarCon con super()` y además le pone el puntaje en 0.
+- **Objetos únicos (wko):** `serpiente`, `gestorDeNiveles`, `colision`, `marcador` y las cuatro direcciones son objetos porque no necesitan varias instancias. Nivel es clase porque tenés cinco con distinta configuracion.
+- **Direcciones como objetos:** cada direccion implementa `siguientePosicion()` y `opuesta()`, así serpiente no usa ningún if para decidir hacia donde se mueve.
+- **Composicion:** gestorDeNiveles conoce a los Nivel, y cada Nivel conoce a sus Comida y Obstaculo. serpiente conoce a sus Segmento.
