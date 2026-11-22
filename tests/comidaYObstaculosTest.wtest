@@ -25,8 +25,8 @@ describe "testeando q las frutas del puntaje y los obstaculos" {
         colision.colisionar(banana)
 
         assert.equals(20, serpiente.puntaje())
-        // la velocidad arranca en 20, la banana resta 1 tonces queda 19
-        assert.equals(19, serpiente.velocidad()) 
+        // La velocidad arranca en 20. La banana ahora resta 2 (por el super + su propio 1)
+        assert.equals(18, serpiente.velocidad()) 
     }
 
     test "la fruta dorada esta chetada y da 50 puntos" {
@@ -41,9 +41,17 @@ describe "testeando q las frutas del puntaje y los obstaculos" {
         assert.notThat(serpiente.estaViva())
     }
 
-    test "chocar contra un cactus tmb te mata" {
+    test "chocar contra un cactus NO te mata pero te resta puntos y velocidad" {
+        // Preparamos a la serpiente con puntos y velocidad normal
+        serpiente.puntaje(50)
+        serpiente.velocidad(20)
+        
         cactus.chocarCon(serpiente)
-        assert.notThat(serpiente.estaViva())
+        
+        // Verificamos la nueva lógica del Cactus
+        assert.that(serpiente.estaViva())            // Sigue viva
+        assert.equals(45, serpiente.puntaje())       // Perdió 5 puntos
+        assert.equals(40, serpiente.velocidad())     // Se frenó (20 * 2 = 40)
     }
 
     test "pisar la lava te mata y de paso te roba todo el puntaje" {

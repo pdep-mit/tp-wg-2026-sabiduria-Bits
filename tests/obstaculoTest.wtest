@@ -20,10 +20,16 @@ describe "Probando cómo interactúa con los obstáculos" {
         assert.notThat(serpiente.estaViva())
     }
 
-    test "Chocar contra el cactus es letal para la serpiente" {
+    test "Chocar contra el cactus no la mata pero le baja puntos y velocidad" {
         serpiente.resetear()
+        serpiente.puntaje(50)
+        serpiente.velocidad(20) // Velocidad base
+        
         cactus.chocarCon(serpiente)
-        assert.notThat(serpiente.estaViva())
+        
+        assert.that(serpiente.estaViva())          // Sigue viva
+        assert.equals(45, serpiente.puntaje())     // 50 - 5 = 45
+        assert.equals(40, serpiente.velocidad())   // 20 * 2 = 40 (va más lento)
     }
 
     test "La lava también es letal y ademas le roba todos los puntos" {

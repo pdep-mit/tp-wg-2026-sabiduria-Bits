@@ -11,13 +11,14 @@ describe "probando q pase de nivel cuando toca" {
         serpiente.resetear()
     }
 
-    test "el nivel 1 pide 10 puntos pa pasar" {
-        assert.equals(10, gestorDeNiveles.nivelActual().puntajeObjetivo())
+    test "el nivel 1 pide 50 puntos pa pasar" {
+        // ANTES PEDIA 10, AHORA PIDE 50 POR EL TUNNEO
+        assert.equals(50, gestorDeNiveles.nivelActual().puntajeObjetivo())
     }
 
-    test "si  hace los 10 puntos pasa al nivel 2 al toke" {
-        // le seteamos 10 
-        gestorDeNiveles.verificarProgreso(10)
+    test "si hace los 50 puntos pasa al nivel 2 al toke" {
+        // Le seteamos los 50 puntos nuevos
+        gestorDeNiveles.verificarProgreso(50)
         
         // el indice del nivel 2 es el 1
         assert.equals(1, gestorDeNiveles.indiceNivelActual())
