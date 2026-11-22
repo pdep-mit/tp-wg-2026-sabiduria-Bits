@@ -59,11 +59,24 @@ object serpiente {
         self.crecer()
         comida.aumentarRapidez(self) 
         
+        // NUEVO: Mensaje con puntaje y velocidad
+        console.println("🍎 ¡Comió " + comida.image() + "! Puntaje: " + puntaje + " | Velocidad: " + velocidad)
+        
         gestorDeNiveles.verificarProgreso(puntaje)
     }
 
     method aumentarVelocidad(cuanto) {
         velocidad = (velocidad - cuanto).max(1) 
+    }
+
+    // Agregar dentro de object serpiente:
+
+    method restarPuntaje(cantidad) {
+        puntaje = (puntaje - cantidad).max(0) // Evita que el puntaje quede negativo
+    }
+
+    method reducirVelocidadALaMitad() {
+        velocidad = velocidad * 2 // Aumenta el número, por lo tanto va más lenta
     }
 
     method crecer() {
@@ -84,7 +97,7 @@ object serpiente {
     }
 
     method reanudar() {
-        self.resetear()
+        //self.resetear()
         pausada = false
     }
 
@@ -109,6 +122,10 @@ object serpiente {
     method morir() {
         viva = false
         game.addVisual(pantallaGameOver)
+        //game.stop()
+
+        // NUEVO: Mensaje cuando muere
+        console.println("💀 ¡La serpiente chocó y murió! Puntaje final: " + puntaje)
     }
 
     method estaViva() = viva
