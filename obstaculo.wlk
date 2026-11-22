@@ -1,33 +1,14 @@
 import wollok.game.*
-import nivel.* 
+import elementoDeJuego.*
+import nivel.*
 
-class Obstaculo {
-    var property position = game.at(0, 0)
+class Obstaculo inherits ElementoDeJuego {
+    // Ya no ponemos position, ni reposicionar, ni posicionLibre
+    
+    // 'image()' queda abstracto, lo definen las subclases
 
-    method image()
-
-    method chocarCon(serpiente) {
+    override method chocarCon(serpiente) {
         serpiente.morir()
-    }
-
-    method reposicionar(serpiente) {
-        const x = (0 .. game.width() - 1).anyOne()
-        const y = (0 .. game.height() - 1).anyOne()
-        const nuevaPos = game.at(x, y)
-
-        if (self.posicionLibre(nuevaPos, serpiente)) {
-            position = nuevaPos
-        } else {
-            self.reposicionar(serpiente)
-        }
-    }
-
-    method posicionLibre(pos, serpiente) {
-        const libreDeSerpiente = not serpiente.ocupa(pos)
-        
-        const libreDeOtros = not gestorDeNiveles.nivelActual().ocupa(pos, self)
-        
-        return libreDeSerpiente and libreDeOtros
     }
 }
 
@@ -37,13 +18,24 @@ class Piedra inherits Obstaculo {
 
 class Cactus inherits Obstaculo {
     override method image() = "cactus.png"
+
+    override method chocarCon(serpiente) {
+        serpiente.restarPuntaje(5) 
+        serpiente.reducirVelocidadALaMitad()
+        
+        // NUEVO: Mensaje con puntaje y velocidad actualizados
+        console.println("🌵 ¡Choco con un Cactus! Puntaje: " + serpiente.puntaje() + " | Velocidad: " + serpiente.velocidad())
+        
+        self.reposicionar(serpiente)
+    }
 }
 
 class Lava inherits Obstaculo {
     override method image() = "lava.png"
 
     override method chocarCon(serpiente) {
-        super(serpiente)
-        serpiente.puntaje(0) 
+        serpiente.puntaje(0) // Le borra el puntaje
+        console.println("🌋 ¡La serpiente cayo en Lava y perdio todos sus puntos!")
+        super(serpiente) // Llama al chocarCon de Obstaculo (que la mata)
     }
 }

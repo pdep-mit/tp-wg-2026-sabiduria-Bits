@@ -1,37 +1,21 @@
 import wollok.game.*
-import obstaculo.*
-import nivel.* // Necesario para consultar al gestor
+import elementoDeJuego.*
+import nivel.* 
 
-class Comida {
-    var property position = game.at(8, 8)
+class Comida inherits ElementoDeJuego {
+    // Ya no ponemos 'var property position' porque lo hereda de ElementoDeJuego
 
     method puntaje() = 10 
-    method image() = "manzana.png"
+    
+    // 'image()' queda abstracto acá, lo definen las subclases (Manzana, etc)
+    
+    method aumentarRapidez(serpiente) {
+        serpiente.aumentarVelocidad(1)
+    }
 
-    method aumentarRapidez(serpiente) {}
-
-    method chocarCon(serpiente) {
+    override method chocarCon(serpiente) {
         serpiente.comer(self)
         self.reposicionar(serpiente)
-    }
-
-    method reposicionar(serpiente) {
-        const x = (0 .. game.width() - 1).anyOne()
-        const y = (0 .. game.height() - 1).anyOne()
-        const nuevaPosicion = game.at(x, y)
-
-        if (self.posicionLibre(nuevaPosicion, serpiente)) {
-            position =  nuevaPosicion
-        } else {
-            self.reposicionar(serpiente)
-        }
-    }
-
-    method posicionLibre(posicion, serpiente) {
-        const libreDeSerpiente = not serpiente.ocupa(posicion)
-        const libreDeOtros = not gestorDeNiveles.nivelActual().ocupa(posicion, self)
-        
-        return libreDeSerpiente and libreDeOtros
     }
 
     method resetear() {
@@ -49,7 +33,7 @@ class Banana inherits Comida {
     override method image() = "banana.png"
 
     override method aumentarRapidez(serpiente) {
-        serpiente.aumentarVelocidad(1)
+        serpiente.aumentarVelocidad(2)
     }
 }
 
