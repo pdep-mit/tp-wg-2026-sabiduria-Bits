@@ -49,19 +49,19 @@ object gestorDeNiveles {
 
     const niveles = [
         // Nivel 1: Necesita comer 3 o 4 manzanas/bananas
-        new Nivel(elementos = [new Manzana(), new Piedra()], puntajeObjetivo = 50, imagen = "nivel1.png"),
+        new Nivel(elementos = [new Manzana(), new Piedra()], puntajeObjetivo = 100, imagen = "nivel1.png"),
         
         // Nivel 2: Un poco más
-        new Nivel(elementos = [new Manzana(), new Piedra(), new Piedra(), new Cactus()], puntajeObjetivo = 100, imagen = "nivel2.png"),
+        new Nivel(elementos = [new Manzana(), new Piedra(), new Piedra(), new Cactus()], puntajeObjetivo = 200, imagen = "nivel2.png"),
         
         // Nivel 3: Ya tiene que esquivar más cosas
-        new Nivel(elementos = [new Manzana(), new Piedra(), new Cactus(), new Cactus(), new FrutaDorada()], puntajeObjetivo = 150, imagen = "nivel3.png"),
+        new Nivel(elementos = [new Manzana(), new Piedra(), new Cactus(), new Cactus(), new FrutaDorada()], puntajeObjetivo = 300, imagen = "nivel3.png"),
         
         // Nivel 4: Aparecen bananas y cerezas
-        new Nivel(elementos = [new Banana(), new Cereza(), new Piedra(), new Piedra(), new Cactus(), new Lava()], puntajeObjetivo = 200, imagen = "nivel4.png"),
+        new Nivel(elementos = [new Banana(), new Cereza(), new Piedra(), new Piedra(), new Cactus(), new Lava()], puntajeObjetivo = 400, imagen = "nivel4.png"),
         
         // Nivel 5: Nivel final, mucha fruta buena pero mucho peligro
-        new Nivel(elementos = [new Manzana(), new Banana(), new Cereza(), new FrutaDorada(), new Piedra(), new Piedra(), new Cactus(), new Cactus(), new Lava(), new Lava()], puntajeObjetivo = 300, imagen = "nivel5.png")
+        new Nivel(elementos = [new Manzana(), new Banana(), new Cereza(), new FrutaDorada(), new Piedra(), new Piedra(), new Cactus(), new Cactus(), new Lava(), new Lava()], puntajeObjetivo = 500, imagen = "nivel5.png")
     ]
 
     method nivelActual() = niveles.get(indiceNivelActual)
