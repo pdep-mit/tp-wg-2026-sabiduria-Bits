@@ -24,8 +24,7 @@ class Cactus inherits Obstaculo {
         serpiente.reducirVelocidadALaMitad()
         
         // NUEVO: Mensaje con puntaje y velocidad actualizados
-        console.println("🌵 ¡Choco con un Cactus! Puntaje: " + serpiente.puntaje() + " | Velocidad: " + serpiente.velocidad())
-        
+        console.println("🌵 ¡Choco con un Cactus! Puntaje: " + serpiente.puntaje() + " | Velocidad: " + (50 - serpiente.velocidad()).max(1))
         self.reposicionar(serpiente)
     }
 }
