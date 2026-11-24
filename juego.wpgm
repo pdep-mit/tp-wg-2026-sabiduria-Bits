@@ -6,7 +6,7 @@ import nivel.*
 import controles.*
 
 program Snake {
-    game.title("Grupo: Bits | Nombre de jueguito")
+    game.title("Grupo: Bits | Snake")
     game.height(16) 
     game.width(16)
     

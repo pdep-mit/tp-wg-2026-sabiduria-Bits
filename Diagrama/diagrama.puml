@@ -1,0 +1,134 @@
+@startuml Snake
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+
+title Diagrama Estático - Juego Snake (Grupo Bits)
+
+' --- CLASES BASE ---
+abstract class ElementoDeJuego {
+    - position
+    + image()
+    + chocarCon(serpiente)
+    + reposicionar(serpiente)
+    + posicionLibre(pos, serpiente)
+}
+
+' --- COMIDAS ---
+abstract class Comida {
+    + puntaje()
+    + aumentarRapidez(serpiente)
+    + chocarCon(serpiente)
+    + resetear()
+}
+
+class Manzana {
+    + puntaje()
+    + image()
+}
+class Banana {
+    + puntaje()
+    + image()
+    + aumentarRapidez(serpiente)
+}
+class Cereza {
+    + puntaje()
+    + image()
+    + aumentarRapidez(serpiente)
+}
+class FrutaDorada {
+    + puntaje()
+    + image()
+    + aumentarRapidez(serpiente)
+}
+
+' --- OBSTACULOS ---
+abstract class Obstaculo {
+    + chocarCon(serpiente)
+}
+class Piedra {
+    + image()
+}
+class Cactus {
+    + image()
+    + chocarCon(serpiente) ' Penaliza puntos y velocidad
+}
+class Lava {
+    + image()
+    + chocarCon(serpiente) ' Borra puntaje y mata
+}
+
+' --- RELACIONES DE HERENCIA ---
+ElementoDeJuego <|-- Comida
+ElementoDeJuego <|-- Obstaculo
+
+Comida <|-- Manzana
+Comida <|-- Banana
+Comida <|-- Cereza
+Comida <|-- FrutaDorada
+
+Obstaculo <|-- Piedra
+Obstaculo <|-- Cactus
+Obstaculo <|-- Lava
+
+' --- NIVEL Y GESTOR ---
+class Nivel {
+    - elementos
+    - puntajeObjetivo
+    - imagen
+    + iniciar()
+    + terminar()
+    + ocupa(posicion, elementoIgnorado)
+}
+
+' --- SERPIENTE Y SEGMENTOS ---
+object Serpiente {
+    - position
+    - puntaje
+    - velocidad
+    - cuerpo
+    + avanzar()
+    + comer(comida)
+    + morir()
+    + restarPuntaje(cantidad)
+    + reducirVelocidadALaMitad()
+    + ocupa(posicion)
+}
+
+class Segmento {
+    - position
+    + image()
+    + chocarCon(serpiente)
+}
+
+' --- DIRECCIONES ---
+abstract class Direccion {
+    + siguientePosicion(posicion)
+    + opuesta()
+}
+object Arriba
+object Abajo
+object Izquierda
+object Derecha
+
+' --- RELACIONES DE CONOCIMIENTO / USO ---
+
+' El Nivel conoce a muchos ElementoDeJuego
+Nivel "1" o-- "*" ElementoDeJuego : contiene
+
+' La Serpiente conoce a sus Segmentos
+Serpiente "1" *-- "*" Segmento : cuerpo
+
+' La Serpiente conoce su dirección actual
+Serpiente --> Direccion : direccion
+
+' Relaciones de Uso (dependencias)
+ElementoDeJuego ..> Serpiente : usa (chocarCon/reposicionar)
+Nivel ..> Serpiente : usa (iniciar/terminar)
+
+' Herencia de Direcciones
+Direccion <|-- Arriba
+Direccion <|-- Abajo
+Direccion <|-- Izquierda
+Direccion <|-- Derecha
+
+@enduml

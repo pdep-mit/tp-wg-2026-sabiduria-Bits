@@ -4,11 +4,11 @@ import nivel.*
 class ElementoDeJuego {
     var property position = game.at(0, 0)
 
-    // Métodos abstractos: cada subclase los define
+    // Metodos abstractos: cada subclase los define
     method image() { }
     method chocarCon(serpiente) { }
 
-    // Lógica común para todos los elementos
+    // Logica comun para todos los elementos
     method reposicionar(serpiente) {
         const x = (0 .. game.width() - 1).anyOne()
         const y = (0 .. game.height() - 1).anyOne()

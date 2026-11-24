@@ -23,5 +23,7 @@ object controles {
             gestorDeNiveles.resetear()
         }
         keyboard.f().onPressDo { game.stop() }
+
+        //faltaria poner una tecla de pausa P (a futuro)
     }
 }

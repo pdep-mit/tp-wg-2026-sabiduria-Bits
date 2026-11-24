@@ -59,9 +59,8 @@ object serpiente {
         self.crecer()
         comida.aumentarRapidez(self) 
         
-        // NUEVO: Mensaje con puntaje y velocidad
-        console.println("🍎 ¡Comió " + comida.image() + "! Puntaje: " + puntaje + " | Velocidad: " + velocidad)
-        
+        //Mensaje con puntaje y velocidad
+        console.println("¡Comió " + comida.image() + "! Puntaje: " + puntaje + " | Velocidad: " + (50 - velocidad).max(1))
         gestorDeNiveles.verificarProgreso(puntaje)
     }
 

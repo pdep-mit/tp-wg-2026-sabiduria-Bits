@@ -7,7 +7,7 @@ class Comida inherits ElementoDeJuego {
 
     method puntaje() = 10 
     
-    // 'image()' queda abstracto acá, lo definen las subclases (Manzana, etc)
+    // 'image()' queda abstracto aca, lo definen las subclases (Manzana, etc)
     
     method aumentarRapidez(serpiente) {
         serpiente.aumentarVelocidad(1)
