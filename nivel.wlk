@@ -48,12 +48,18 @@ object gestorDeNiveles {
     var property indiceNivelActual = 0
 
     const niveles = [
-        // Nivel 1: Necesita comer 3 o 4 manzanas/bananas
-        new Nivel(elementos = [new Manzana(), new Piedra()], puntajeObjetivo = 100, imagen = "nivel1.png"),
-
-        // Nivel 2: Un poco más
-        new Nivel(elementos = [new Manzana(), new Piedra(), new Piedra(), new Cactus()], puntajeObjetivo = 200, imagen = "nivel2.png"),
-
+        // Nivel 1: Ahora tiene manzana, banana y cereza para variar mas  y dos obstaculos
+        new Nivel (
+			elementos = [new Manzana(), new Banana(), new Cereza(), new Piedra(), new Piedra()],
+			puntajeObjetivo = 100,
+			imagen = "nivell.png"
+		),
+    // Nivel 2: Ahora tiene manzana, banana y cereza, más dos piedras y un cactus
+		new Nivel (
+			elementos = [new Manzana(), new Banana(), new Cereza(), new Piedra(), new Piedra(), new Cactus()],
+			puntajeObjetivo = 200,
+			imagen = "nivel2.png"
+		),
         // Nivel 3: Ya tiene que esquivar más cosas
         new Nivel(elementos = [new Manzana(), new Piedra(), new Cactus(), new Cactus(), new FrutaDorada()], puntajeObjetivo = 300, imagen = "nivel3.png"),
 
