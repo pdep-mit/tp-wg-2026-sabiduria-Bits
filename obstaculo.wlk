@@ -30,11 +30,16 @@ class Cactus inherits Obstaculo {
 }
 
 class Lava inherits Obstaculo {
-    override method image() = "lava.png"
+	override method image() = "lava.png"
 
-    override method chocarCon(serpiente) {
-        serpiente.puntaje(0) // Le borra el puntaje
-        console.println("🌋 ¡La serpiente cayo en Lava y perdio todos sus puntos!")
-        super(serpiente) // Llama al chocarCon de Obstaculo (que la mata)
-    }
+	override method chocarCon(serpiente) {
+		serpiente.restarPuntaje(10)
+		if (not serpiente.cuerpo().isEmpty()) {
+			const ultimo = serpiente.cuerpo().last()
+			serpiente.cuerpo().remove(ultimo)
+			game.removeVisual(ultimo)
+		}
+		console.println("🌋 ¡La lava quemó parte de la serpiente! Puntaje: " + serpiente.puntaje())
+		self.reposicionar(serpiente)
+	}
 }
