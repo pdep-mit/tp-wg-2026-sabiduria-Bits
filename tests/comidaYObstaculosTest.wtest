@@ -54,11 +54,15 @@ describe "testeando q las frutas del puntaje y los obstaculos" {
         assert.equals(40, serpiente.velocidad())     // Se frenó (20 * 2 = 40)
     }
 
-    test "pisar la lava te mata y de paso te roba todo el puntaje" {
-        serpiente.puntaje(500)
-        lava.chocarCon(serpiente)
-        
-        assert.notThat(serpiente.estaViva())
-        assert.equals(0, serpiente.puntaje())
+    test "pisar la lava NO te mata, te resta 10 puntos y te quema un segmento del cuerpo" {
+            serpiente.puntaje(500)
+            serpiente.crecer() // Agregamos 1 segmento para verificar que la lava lo quema
+            assert.equals(1, serpiente.cuerpo().size())
+
+            lava.chocarCon(serpiente)
+            
+            assert.that(serpiente.estaViva())            // Sigue viva
+            assert.equals(490, serpiente.puntaje())      // Perdió 10 puntos (500 - 10)
+            assert.that(serpiente.cuerpo().isEmpty())    // Perdió el segmento que tenía
     }
 }
