@@ -1,134 +1,221 @@
-@startuml Snake
-skinparam classAttributeIconSize 0
-skinparam linetype ortho
+@startuml DiagramaEstaticoSnake
 
-title Diagrama Estático - Juego Snake (Grupo Bits)
-
-' --- CLASES BASE ---
-abstract class ElementoDeJuego {
-    - position
-    + image()
-    + chocarCon(serpiente)
-    + reposicionar(serpiente)
-    + posicionLibre(pos, serpiente)
+' --- CLASES Y JERARQUIA ---
+class ElementoDeJuego {
+  -position: Position
+  +image()
+  +chocarCon(serpiente)
+  +reposicionar(serpiente)
+  +posicionLibre(pos, serpiente): Boolean
 }
 
-' --- COMIDAS ---
-abstract class Comida {
-    + puntaje()
-    + aumentarRapidez(serpiente)
-    + chocarCon(serpiente)
-    + resetear()
+class Comida extends ElementoDeJuego {
+  +puntaje(): Number
+  +aumentarRapidez(serpiente)
+  +chocarCon(serpiente)
+  +resetear()
 }
 
-class Manzana {
-    + puntaje()
-    + image()
-}
-class Banana {
-    + puntaje()
-    + image()
-    + aumentarRapidez(serpiente)
-}
-class Cereza {
-    + puntaje()
-    + image()
-    + aumentarRapidez(serpiente)
-}
-class FrutaDorada {
-    + puntaje()
-    + image()
-    + aumentarRapidez(serpiente)
+class Manzana extends Comida {
+  +puntaje(): Number
+  +image(): String
 }
 
-' --- OBSTACULOS ---
-abstract class Obstaculo {
-    + chocarCon(serpiente)
-}
-class Piedra {
-    + image()
-}
-class Cactus {
-    + image()
-    + chocarCon(serpiente) ' Penaliza puntos y velocidad
-}
-class Lava {
-    + image()
-    + chocarCon(serpiente) ' Borra puntaje y mata
+class Banana extends Comida {
+  +puntaje(): Number
+  +image(): String
+  +aumentarRapidez(serpiente)
 }
 
-' --- RELACIONES DE HERENCIA ---
-ElementoDeJuego <|-- Comida
-ElementoDeJuego <|-- Obstaculo
-
-Comida <|-- Manzana
-Comida <|-- Banana
-Comida <|-- Cereza
-Comida <|-- FrutaDorada
-
-Obstaculo <|-- Piedra
-Obstaculo <|-- Cactus
-Obstaculo <|-- Lava
-
-' --- NIVEL Y GESTOR ---
-class Nivel {
-    - elementos
-    - puntajeObjetivo
-    - imagen
-    + iniciar()
-    + terminar()
-    + ocupa(posicion, elementoIgnorado)
+class Cereza extends Comida {
+  +puntaje(): Number
+  +image(): String
+  +aumentarRapidez(serpiente)
 }
 
-' --- SERPIENTE Y SEGMENTOS ---
-object Serpiente {
-    - position
-    - puntaje
-    - velocidad
-    - cuerpo
-    + avanzar()
-    + comer(comida)
-    + morir()
-    + restarPuntaje(cantidad)
-    + reducirVelocidadALaMitad()
-    + ocupa(posicion)
+class FrutaDorada extends Comida {
+  +puntaje(): Number
+  +image(): String
+  +aumentarRapidez(serpiente)
+}
+
+class Obstaculo extends ElementoDeJuego {
+  +chocarCon(serpiente)
+}
+
+class Piedra extends Obstaculo {
+  +image(): String
+}
+
+class Cactus extends Obstaculo {
+  +image(): String
+  +chocarCon(serpiente)
+}
+
+class Lava extends Obstaculo {
+  +image(): String
+  +chocarCon(serpiente)
 }
 
 class Segmento {
-    - position
-    + image()
-    + chocarCon(serpiente)
+  -position: Position
+  +image(): String
+  +chocarCon(serpiente)
 }
 
-' --- DIRECCIONES ---
-abstract class Direccion {
-    + siguientePosicion(posicion)
-    + opuesta()
+class Nivel {
+  -elementos: List<ElementoDeJuego>
+  -puntajeObjetivo: Number
+  -imagen: String
+  +iniciar()
+  +terminar()
+  +ocupa(posicion, elementoIgnorado): Boolean
 }
-object Arriba
-object Abajo
-object Izquierda
-object Derecha
 
-' --- RELACIONES DE CONOCIMIENTO / USO ---
+' --- OBJETOS (WKO) ---
+object serpiente <<object>> {
+  -position: Position
+  -direccion
+  -direccionActual
+  -puntaje: Number
+  -velocidad: Number
+  -contador: Number
+  -viva: Boolean
+  -pausada: Boolean
+  -cuerpo: List<Segmento>
+  +cambiarDireccion(nuevaDireccion)
+  +avanzar()
+  +moverCuerpo(posCabezaAnterior)
+  +verificarBorde()
+  +comer(comida)
+  +aumentarVelocidad(cuanto)
+  +restarPuntaje(cantidad)
+  +reducirVelocidadALaMitad()
+  +crecer()
+  +ocupa(unaPosicion): Boolean
+  +pausar()
+  +reanudar()
+  +resetear()
+  +morir()
+  +estaViva(): Boolean
+  +image(): String
+}
 
-' El Nivel conoce a muchos ElementoDeJuego
-Nivel "1" o-- "*" ElementoDeJuego : contiene
+object gestorDeNiveles <<object>> {
+  -indiceNivelActual: Number
+  -niveles: List<Nivel>
+  +nivelActual(): Nivel
+  +tiempoDeJuego(): Number
+  +verificarProgreso(puntajeActual)
+  +efectoFinDelJuego()
+  +iniciarJuego()
+  +efectoTransicion()
+  +mostrarPantallaTransicion()
+  +cargarNivelActual()
+  +resetear()
+}
 
-' La Serpiente conoce a sus Segmentos
-Serpiente "1" *-- "*" Segmento : cuerpo
+object marcador <<object>> {
+  +position(): Position
+  +text(): String
+  +textColor(): String
+  +chocarCon(serpiente)
+}
 
-' La Serpiente conoce su dirección actual
-Serpiente --> Direccion : direccion
+object controles <<object>> {
+  +configurar()
+}
 
-' Relaciones de Uso (dependencias)
-ElementoDeJuego ..> Serpiente : usa (chocarCon/reposicionar)
-Nivel ..> Serpiente : usa (iniciar/terminar)
+object colision <<object>> {
+  +colisionar(objeto)
+}
 
-' Herencia de Direcciones
-Direccion <|-- Arriba
-Direccion <|-- Abajo
-Direccion <|-- Izquierda
-Direccion <|-- Derecha
+object arriba <<object>> {
+  +siguientePosicion(posicion)
+  +opuesta()
+}
+
+object abajo <<object>> {
+  +siguientePosicion(posicion)
+  +opuesta()
+}
+
+object izquierda <<object>> {
+  +siguientePosicion(posicion)
+  +opuesta()
+}
+
+object derecha <<object>> {
+  +siguientePosicion(posicion)
+  +opuesta()
+}
+
+object pantallaGameOver <<object>> {
+  +position(): Position
+  +image(): String
+}
+
+object pantallaFinDelJuego <<object>> {
+  +position(): Position
+  +image(): String
+}
+
+object pantallaTransicion <<object>> {
+  +position(): Position
+  +image(): String
+}
+
+' --- CONOCE (---> : referencia guardada en un atributo) ---
+Nivel ---> ElementoDeJuego : elementos
+gestorDeNiveles ---> Nivel : niveles
+serpiente ---> Segmento : cuerpo
+serpiente ---> derecha : direccion / direccionActual
+
+' --- USA (..> : parametro, llamada o uso temporal) ---
+ElementoDeJuego ..> serpiente
+ElementoDeJuego ..> gestorDeNiveles
+Comida ..> serpiente
+Obstaculo ..> serpiente
+Segmento ..> serpiente
+Nivel ..> serpiente
+
+gestorDeNiveles ..> serpiente
+gestorDeNiveles ..> pantallaTransicion
+gestorDeNiveles ..> pantallaFinDelJuego
+
+serpiente ..> gestorDeNiveles
+serpiente ..> pantallaGameOver
+serpiente ..> Comida
+serpiente ..> arriba
+serpiente ..> abajo
+serpiente ..> izquierda
+serpiente ..> derecha
+
+marcador ..> serpiente
+controles ..> serpiente
+controles ..> gestorDeNiveles
+controles ..> arriba
+controles ..> abajo
+controles ..> izquierda
+controles ..> derecha
+
+colision ..> serpiente
+pantallaTransicion ..> gestorDeNiveles
+
+arriba ..> abajo : opuesta()
+abajo ..> arriba : opuesta()
+izquierda ..> derecha : opuesta()
+derecha ..> izquierda : opuesta()
+
+note bottom of colision
+  El parametro "objeto" no tiene un tipo declarado
+  en el codigo, por eso no se agrega una relacion
+  hacia una clase concreta.
+end note
+
+note bottom of ElementoDeJuego
+  Position pertenece a wollok.game,
+  una biblioteca externa al proyecto.
+end note
 
 @enduml
